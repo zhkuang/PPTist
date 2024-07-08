@@ -10,7 +10,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import { KEYS } from '@/configs/hotkey'
 import useScreening from '@/hooks/useScreening'
 
-import BaseView from './BaseView.vue'
+import BaseView from '@/customized/views/Screen/BaseView.vue'
 import PresenterView from './PresenterView.vue'
 
 const viewMode = ref<'base' | 'presenter'>('base')
