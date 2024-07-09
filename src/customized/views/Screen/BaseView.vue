@@ -35,13 +35,14 @@ const {
   touchStartListener,
   touchEndListener,
   turnSlideToId,
+  animationIndex
 } = useExecPlay()
 
 const { slideWidth, slideHeight } = useSlideSize()
 const { manualExitFullscreen } = useFullscreen()
 
 const laserPen = ref(false)
-const barcodeData = computed(() => slideIndex.value.toString())
+const barcodeData = computed(() => slideIndex.value + '_' + animationIndex.value)
 
 const contextmenus = (): ContextmenuItem[] => {
   return []

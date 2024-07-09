@@ -61,7 +61,7 @@ export const useMainStore = defineStore('main', {
     creatingCustomShape: false, // 正在绘制任意多边形
     availableFonts: SYS_FONTS, // 当前环境可用字体
     toolbarState: ToolbarStates.SLIDE_DESIGN, // 右侧工具栏状态
-    clipingImageElementId: '', // 当前正在裁剪的图片ID  
+    clipingImageElementId: '', // 当前正在裁剪的图片ID
     richTextAttrs: defaultRichTextAttrs, // 富文本状态
     selectedTableCells: [], // 选中的表格单元格
     isScaling: false, // 正在进行元素缩放
@@ -82,7 +82,7 @@ export const useMainStore = defineStore('main', {
       if (!currentSlide || !currentSlide.elements) return []
       return currentSlide.elements.filter(element => state.activeElementIdList.includes(element.id))
     },
-  
+
     handleElement(state) {
       const slidesStore = useSlidesStore()
       const currentSlide = slidesStore.currentSlide
@@ -95,86 +95,86 @@ export const useMainStore = defineStore('main', {
     setActiveElementIdList(activeElementIdList: string[]) {
       if (activeElementIdList.length === 1) this.handleElementId = activeElementIdList[0]
       else this.handleElementId = ''
-      
+
       this.activeElementIdList = activeElementIdList
     },
-    
+
     setHandleElementId(handleElementId: string) {
       this.handleElementId = handleElementId
     },
-    
+
     setActiveGroupElementId(activeGroupElementId: string) {
       this.activeGroupElementId = activeGroupElementId
     },
-    
+
     setHiddenElementIdList(hiddenElementIdList: string[]) {
       this.hiddenElementIdList = hiddenElementIdList
     },
-  
+
     setCanvasPercentage(percentage: number) {
       this.canvasPercentage = percentage
     },
-  
+
     setCanvasScale(scale: number) {
       this.canvasScale = scale
     },
-  
+
     setCanvasDragged(isDragged: boolean) {
       this.canvasDragged = isDragged
     },
-  
+
     setThumbnailsFocus(isFocus: boolean) {
       this.thumbnailsFocus = isFocus
     },
-  
+
     setEditorareaFocus(isFocus: boolean) {
       this.editorAreaFocus = isFocus
     },
-  
+
     setDisableHotkeysState(disable: boolean) {
       this.disableHotkeys = disable
     },
-  
+
     setGridLineSize(size: number) {
       this.gridLineSize = size
     },
-  
+
     setRulerState(show: boolean) {
       this.showRuler = show
     },
-  
+
     setCreatingElement(element: CreatingElement | null) {
       this.creatingElement = element
     },
-  
+
     setCreatingCustomShapeState(state: boolean) {
       this.creatingCustomShape = state
     },
-  
+
     setAvailableFonts() {
       this.availableFonts = SYS_FONTS.filter(font => isSupportFont(font.value))
     },
-  
+
     setToolbarState(toolbarState: ToolbarStates) {
       this.toolbarState = toolbarState
     },
-  
+
     setClipingImageElementId(elId: string) {
       this.clipingImageElementId = elId
     },
-  
+
     setRichtextAttrs(attrs: TextAttrs) {
       this.richTextAttrs = attrs
     },
-  
+
     setSelectedTableCells(cells: string[]) {
       this.selectedTableCells = cells
     },
-  
+
     setScalingState(isScaling: boolean) {
       this.isScaling = isScaling
     },
-    
+
     updateSelectedSlidesIndex(selectedSlidesIndex: number[]) {
       this.selectedSlidesIndex = selectedSlidesIndex
     },
@@ -203,4 +203,6 @@ export const useMainStore = defineStore('main', {
       this.showNotesPanel = show
     },
   },
+
+  persist: true,
 })

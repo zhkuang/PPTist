@@ -14,4 +14,6 @@ export const useScreenStore = defineStore('screen', {
       this.screening = screening
     },
   },
+
+  persist: true,
 })

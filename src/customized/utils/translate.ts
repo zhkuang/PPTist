@@ -1,3 +1,22 @@
+// 简历多语言的持久化缓存，以HTML中的文本为索引，将翻译结果存储在localStorage中
+const languages = [{
+  lang: 'en',
+  name: 'English',
+  label: '英语'
+}, {
+  lang: 'jp',
+  name: 'Japanese',
+  label: '日语'
+}, {
+  lang: 'kor',
+  name: 'Korean',
+  label: '韩语'
+}, {
+  lang: 'fra',
+  name: 'French',
+  label: '法语'
+}];
+
 class PromisePool {
   private maxConcurrency: any;
   private currentConcurrency: number;
@@ -32,8 +51,8 @@ class PromisePool {
   }
 }
 
-async function translateText(text) {
-  const response = await fetch(`http://fc-mp-c7689e52-ece3-48ec-b94f-86f95c332d50.next.bspapp.com/translate?text=${encodeURIComponent(text)}`, {
+async function translateText(text, lang) {
+  const response = await fetch(`http://fc-mp-c7689e52-ece3-48ec-b94f-86f95c332d50.next.bspapp.com/translate?to=${lang}&text=${encodeURIComponent(text)}`, {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -42,25 +61,8 @@ async function translateText(text) {
   return resp.data.result.trans_result[0].dst;
 }
 
-export async function translateHTML(elements) {
-
-  const textNodes = [];
-  elements.forEach(element => {
-    element.childNodes.forEach(node => {
-      if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim()) {
-        textNodes.push(node);
-      }
-    });
-  });
-
-  const maxConcurrency = 5; // 最大并发量
-  const pool = new PromisePool(maxConcurrency);
-
-  const translateTasks = textNodes.map(node =>
-    pool.enqueue(() => translateText(node.nodeValue).then(translatedText => {
-      node.nodeValue = translatedText;
-    }))
-  );
-
-  await Promise.all(translateTasks);
+export async function translates(texts, lang) {
+  const pool = new PromisePool(5);
+  const results = await Promise.all(texts.map(text => pool.enqueue(() => translateText(text, lang))));
+  return results;
 }
