@@ -16,65 +16,65 @@ export interface LanguageKey {
 }
 
 export const LanguageInfos = [
+  // {
+  //   'lang': 'zh',
+  //   'name': 'Chinese',
+  //   'label': '中文'
+  // },
+  // {
+  //   'lang': 'yue',
+  //   'name': 'Cantonese',
+  //   'label': '粤语'
+  // },
   {
-    "lang": "zh",
-    "name": "Chinese",
-    "label": "中文"
+    'lang': 'en',
+    'name': 'English',
+    'label': '英语'
   },
   {
-    "lang": "yue",
-    "name": "Cantonese",
-    "label": "粤语"
+    'lang': 'jp',
+    'name': 'Japanese',
+    'label': '日语'
   },
   {
-    "lang": "en",
-    "name": "English",
-    "label": "英语"
+    'lang': 'kor',
+    'name': 'Korean',
+    'label': '韩语'
   },
   {
-    "lang": "jp",
-    "name": "Japanese",
-    "label": "日语"
+    'lang': 'fra',
+    'name': 'French',
+    'label': '法语'
   },
   {
-    "lang": "kor",
-    "name": "Korean",
-    "label": "韩语"
+    'lang': 'de',
+    'name': 'German',
+    'label': '德语'
   },
   {
-    "lang": "fra",
-    "name": "French",
-    "label": "法语"
+    'lang': 'es',
+    'name': 'Spanish',
+    'label': '西班牙语'
   },
   {
-    "lang": "de",
-    "name": "German",
-    "label": "德语"
+    'lang': 'it',
+    'name': 'Italian',
+    'label': '意大利语'
   },
   {
-    "lang": "es",
-    "name": "Spanish",
-    "label": "西班牙语"
+    'lang': 'pt',
+    'name': 'Portuguese',
+    'label': '葡萄牙语'
   },
   {
-    "lang": "it",
-    "name": "Italian",
-    "label": "意大利语"
+    'lang': 'ru',
+    'name': 'Russian',
+    'label': '俄语'
   },
   {
-    "lang": "pt",
-    "name": "Portuguese",
-    "label": "葡萄牙语"
-  },
-  {
-    "lang": "ru",
-    "name": "Russian",
-    "label": "俄语"
-  },
-  {
-    "lang": "ara",
-    "name": "Arabic",
-    "label": "阿拉伯语"
+    'lang': 'ara',
+    'name': 'Arabic',
+    'label': '阿拉伯语'
   }
 ]
 

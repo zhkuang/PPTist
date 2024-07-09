@@ -1,29 +1,46 @@
 <template>
   <div class="main-wrapper">
-    <div class="main-content">
+    <div class="main-content" v-if="model === 'select'">
       <FileInput accept=".pptist"  @change="files => {
             importSpecificFile(files)
           }">
-        <PopoverMenuItem><span style="cursor: pointer;color: #1b89ff;">点击选择 pptist 文件</span></PopoverMenuItem>
+        <span style="cursor: pointer;color: #1b89ff;">点击选择 pptist 文件</span>
       </FileInput>
+    </div>
+    <div class="preview-wrapper" v-else>
+      <preview-list v-for="language in LanguageInfos" :key="language.lang" :language="language.lang" :label="language.label" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue'
-import useImport from "@/customized/hooks/useImport";
-
+import {computed, onMounted, ref, watchEffect} from 'vue'
+import {LanguageInfos} from '@/customized/store/dictionary'
+import useImport from '@/customized/hooks/useImport'
 import FileInput from '@/components/FileInput.vue'
+import PreviewList from '@/customized/processor/PreviewList.vue'
+import {storeToRefs} from 'pinia'
+import {useSlidesStore} from '@/store'
 
 const { importSpecificFile } = useImport()
+
+const { slides } = storeToRefs(useSlidesStore())
+const model = ref('select')
+watchEffect(() => {
+  if (slides.value.length > 0) {
+    model.value = 'preview'
+  }
+  else {
+    model.value = 'select'
+  }
+})
 
 onMounted(() => {
   console.log('Processor is mounted')
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .main-wrapper {
   display: flex;
   justify-content: center;
@@ -31,6 +48,7 @@ onMounted(() => {
   width: 100vw;
   height: 100vh;
   background-color: #f0f0f0;
+  overflow: auto;
   .main-content {
     width: 400px;
     height: 400px;
@@ -41,6 +59,16 @@ onMounted(() => {
     background-color: #fff;
     box-shadow: #5d5a5a 0 0 10px;
     border-radius: 10px;
+  }
+  .preview-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: auto;
+    padding: 10px;
+    gap: 10px;
   }
 }
 </style>
