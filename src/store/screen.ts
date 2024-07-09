@@ -15,5 +15,4 @@ export const useScreenStore = defineStore('screen', {
     },
   },
 
-  persist: true,
 })

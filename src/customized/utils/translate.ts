@@ -1,21 +1,4 @@
-// 简历多语言的持久化缓存，以HTML中的文本为索引，将翻译结果存储在localStorage中
-const languages = [{
-  lang: 'en',
-  name: 'English',
-  label: '英语'
-}, {
-  lang: 'jp',
-  name: 'Japanese',
-  label: '日语'
-}, {
-  lang: 'kor',
-  name: 'Korean',
-  label: '韩语'
-}, {
-  lang: 'fra',
-  name: 'French',
-  label: '法语'
-}];
+import { useDictionaryStore } from '@/customized/store/dictionary'
 
 class PromisePool {
   private maxConcurrency: any;
@@ -52,13 +35,28 @@ class PromisePool {
 }
 
 async function translateText(text, lang) {
+  if (!text || !lang) {
+    return '';
+  }
+  const dictionaryStore = useDictionaryStore();
+  const langDict = dictionaryStore.state[lang];
+  if (langDict && langDict[text]) {
+    return langDict[text];
+  }
+
   const response = await fetch(`http://fc-mp-c7689e52-ece3-48ec-b94f-86f95c332d50.next.bspapp.com/translate?to=${lang}&text=${encodeURIComponent(text)}`, {
     headers: {
       'Content-Type': 'application/json'
     }
   });
   const resp = await response.json();
-  return resp.data.result.trans_result[0].dst;
+  const rsl = resp.data.result.trans_result[0]?.dst;
+  if (rsl) {
+    dictionaryStore.setDict(lang, text, rsl);
+  } else {
+    console.error(`Failed to translate text: ${text}`);
+  }
+  return rsl;
 }
 
 export async function translates(texts, lang) {

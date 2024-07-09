@@ -128,5 +128,4 @@ export const useSnapshotStore = defineStore('snapshot', {
     },
   },
 
-  persist: true,
 })

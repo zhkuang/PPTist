@@ -31,5 +31,4 @@ export const useKeyboardStore = defineStore('keyboard', {
     },
   },
 
-  persist: true,
 })

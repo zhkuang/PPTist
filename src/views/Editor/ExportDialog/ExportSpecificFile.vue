@@ -38,7 +38,7 @@
 import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
-import useExport from '@/hooks/useExport'
+import useExport from '@/customized/hooks/useExport'
 
 import Slider from '@/components/Slider.vue'
 import Button from '@/components/Button.vue'
