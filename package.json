@@ -25,6 +25,7 @@
     "html-to-image": "^1.11.11",
     "lodash": "^4.17.21",
     "mitt": "^3.0.1",
+    "modern-screenshot": "^4.4.39",
     "nanoid": "^5.0.4",
     "number-precision": "^1.6.0",
     "pinia": "^2.1.7",
