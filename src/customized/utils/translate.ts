@@ -1,4 +1,6 @@
-import { useDictionaryStore } from '@/customized/store/dictionary'
+import axios from 'axios';
+import { useDictionaryStore } from '@/customized/store/dictionary';
+import { LanguageInfos } from '@/customized/store/dictionary';
 
 class PromisePool {
   private maxConcurrency: any;
@@ -44,23 +46,61 @@ async function translateText(text, lang) {
     return langDict[text];
   }
 
-  const response = await fetch(`http://fc-mp-c7689e52-ece3-48ec-b94f-86f95c332d50.next.bspapp.com/translate?to=${lang}&text=${encodeURIComponent(text)}`, {
-    headers: {
-      'Content-Type': 'application/json'
+  try {
+    const response = await axios.get(`http://fc-mp-c7689e52-ece3-48ec-b94f-86f95c332d50.next.bspapp.com/translate`, {
+      params: {
+        to: lang,
+        text: encodeURIComponent(text)
+      },
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const rsl = response.data.data.result.trans_result[0]?.dst;
+    if (rsl) {
+      dictionaryStore.setDict(lang, text, rsl);
+    } else {
+      console.error(`Failed to translate text: ${text}`);
     }
-  });
-  const resp = await response.json();
-  const rsl = resp.data.result.trans_result[0]?.dst;
-  if (rsl) {
-    dictionaryStore.setDict(lang, text, rsl);
-  } else {
-    console.error(`Failed to translate text: ${text}`);
+    return rsl;
+  } catch (error) {
+    console.error(error);
+    return '';
   }
-  return rsl;
 }
 
+async function translateWithAi(text) {
+  const url = 'http://localhost:3000/proxy';
+  const apiKey = 'sk-6e067eafbf724d0eaeea7747b31da960'; // 请替换为你的实际 API 密钥
+  const headers = {
+    'Content-Type': 'application/json'
+  };
+  const data = {
+    apiKey,
+    prompt: text
+  };
+
+  try {
+    const response = await axios.post(url, data, { headers, timeout: 60000 });
+    return response.data?.output?.text || '';
+  } catch (error) {
+    throw error;
+  }
+}
+
+const pool = new PromisePool(5);
+
 export async function translates(texts, lang) {
-  const pool = new PromisePool(5);
   const results = await Promise.all(texts.map(text => pool.enqueue(() => translateText(text, lang))));
   return results;
+}
+
+const poolForAi = new PromisePool(1);
+
+export async function translatesWithAi(texts, lang) {
+  const langInfo = LanguageInfos.find(info => info.lang === lang);
+  const prompts = texts.map(text => {
+    return `翻译为${langInfo.label}，内容如下：${text}`;
+  });
+  return await Promise.all(prompts.map(text => poolForAi.enqueue(() => translateWithAi(text))));
 }

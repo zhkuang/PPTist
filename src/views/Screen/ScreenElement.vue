@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     class="screen-element"
     :class="{ 'link': elementInfo.link }"
     :id="`screen-element-${elementInfo.id}`"

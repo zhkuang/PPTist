@@ -31,51 +31,51 @@ export const LanguageInfos = [
     'name': 'English',
     'label': '英语'
   },
-  {
-    'lang': 'jp',
-    'name': 'Japanese',
-    'label': '日语'
-  },
-  {
-    'lang': 'kor',
-    'name': 'Korean',
-    'label': '韩语'
-  },
-  {
-    'lang': 'fra',
-    'name': 'French',
-    'label': '法语'
-  },
-  {
-    'lang': 'de',
-    'name': 'German',
-    'label': '德语'
-  },
-  {
-    'lang': 'es',
-    'name': 'Spanish',
-    'label': '西班牙语'
-  },
-  {
-    'lang': 'it',
-    'name': 'Italian',
-    'label': '意大利语'
-  },
-  {
-    'lang': 'pt',
-    'name': 'Portuguese',
-    'label': '葡萄牙语'
-  },
-  {
-    'lang': 'ru',
-    'name': 'Russian',
-    'label': '俄语'
-  },
-  {
-    'lang': 'ara',
-    'name': 'Arabic',
-    'label': '阿拉伯语'
-  }
+  // {
+  //   'lang': 'jp',
+  //   'name': 'Japanese',
+  //   'label': '日语'
+  // },
+  // {
+  //   'lang': 'kor',
+  //   'name': 'Korean',
+  //   'label': '韩语'
+  // },
+  // {
+  //   'lang': 'fra',
+  //   'name': 'French',
+  //   'label': '法语'
+  // },
+  // {
+  //   'lang': 'de',
+  //   'name': 'German',
+  //   'label': '德语'
+  // },
+  // {
+  //   'lang': 'es',
+  //   'name': 'Spanish',
+  //   'label': '西班牙语'
+  // },
+  // {
+  //   'lang': 'it',
+  //   'name': 'Italian',
+  //   'label': '意大利语'
+  // },
+  // {
+  //   'lang': 'pt',
+  //   'name': 'Portuguese',
+  //   'label': '葡萄牙语'
+  // },
+  // {
+  //   'lang': 'ru',
+  //   'name': 'Russian',
+  //   'label': '俄语'
+  // },
+  // {
+  //   'lang': 'ara',
+  //   'name': 'Arabic',
+  //   'label': '阿拉伯语'
+  // }
 ]
 
 export const useDictionaryStore = defineStore('dictionary', {
