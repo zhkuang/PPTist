@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, provide, watchEffect, ref} from 'vue'
+import {computed, provide, watchEffect, ref, watch} from 'vue'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
 import type { Slide } from '@/types/slides'
@@ -35,6 +35,7 @@ import {translatesWithAi} from "@/customized/utils/translate";
 const props = defineProps<{
   slide: Slide
   size: number
+  translating: boolean
   language: string
   animationIndex: number
   turnSlideToId: (id: string) => void
@@ -51,11 +52,27 @@ const slideId = computed(() => props.slide.id)
 provide(injectKeySlideId, slideId)
 
 let elements = ref(props.slide.elements)
+const translatedIds = []
 
-watchEffect(async () => {
+async function translateHandler() {
+
+  if (!props.translating) {
+    return
+  }
+
   const texts = []
   const elementIds = []
   props.slide.elements.forEach((element, index) => {
+
+    if (!props.translating) {
+      return
+    }
+
+    // 过滤已经翻译的
+    if (translatedIds.includes(element.id)) {
+      return
+    }
+
     if (element.type === 'text' && element.content) {
       texts.push(element.content)
       elementIds.push(element.id)
@@ -63,6 +80,15 @@ watchEffect(async () => {
   })
   try {
     const translatedTexts = await translatesWithAi(texts, props.language);
+
+    // 记录已经翻译成功的
+    translatedTexts.forEach((text, index) => {
+      if (text) {
+        translatedIds.push(elementIds[index])
+      }
+    })
+
+    // 翻译成果回填到元素
     elements.value = elements.value.map((element) => {
       const idx = elementIds.indexOf(element.id);
       if (idx !== -1) {
@@ -75,6 +101,12 @@ watchEffect(async () => {
     });
   } catch (error) {
     console.error("Error translating texts:", error);
+  }
+}
+
+watchEffect(() => {
+  if (props.translating) {
+    translateHandler()
   }
 })
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="main-wrapper">
-    <div class="main-content" v-if="model === 'select'">
+    <div class="main-content" v-if="isEmptySlide">
       <FileInput accept=".pptist"  @change="files => {
             importSpecificFile(files)
           }">
@@ -21,22 +21,16 @@ import FileInput from '@/components/FileInput.vue'
 import PreviewList from '@/customized/processor/PreviewList.vue'
 import {storeToRefs} from 'pinia'
 import {useSlidesStore} from '@/store'
+import useSlideHandler from "@/hooks/useSlideHandler";
+import useAddSlidesOrElements from "@/hooks/useAddSlidesOrElements";
 
 const { importSpecificFile } = useImport()
-
+const { resetSlides } = useSlideHandler()
+const { isEmptySlide } = useAddSlidesOrElements()
 const { slides } = storeToRefs(useSlidesStore())
-const model = ref('select')
-watchEffect(() => {
-  if (slides.value.length > 0) {
-    model.value = 'preview'
-  }
-  else {
-    model.value = 'select'
-  }
-})
 
 onMounted(() => {
-  console.log('Processor is mounted')
+  resetSlides()
 })
 </script>
 

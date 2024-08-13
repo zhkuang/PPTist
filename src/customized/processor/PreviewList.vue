@@ -3,6 +3,7 @@
     <p class="preview-list-title">
       <span>{{label + '(' + language + ')'}}</span>
       <span class="export-btn" @click="exportImg">导出</span>
+      <span class="export-btn" @click="startTranslate">开始翻译</span>
     </p>
     <div ref="imageThumbnailsRef" class="preview-wrapper">
       <div class="preview-item-wrapper" v-for="(item, index) in previewList" :key="index">
@@ -10,7 +11,8 @@
           class="preview-item"
           :language="language"
           :slide="item.slide"
-          :size="1600"
+          :size="1000"
+          :translating="translating"
           :animationIndex="item.animationIndex"
           :turnSlideToId="turnSlideToId"
           :manualExitFullscreen="manualExitFullscreen"
@@ -37,6 +39,8 @@ const props = defineProps<{
   label: string,
 }>()
 
+const translating = ref(false)
+
 const previewList = computed(() => {
   const list = []
   slides.value.forEach(slide => {
@@ -59,6 +63,10 @@ const previewList = computed(() => {
 const exportImg = () => {
   if (!imageThumbnailsRef.value) return
   exportImage(imageThumbnailsRef.value, 'jpeg', 1, true)
+}
+
+const startTranslate = () => {
+  translating.value = true
 }
 
 const turnSlideToId = (id: string) => {
