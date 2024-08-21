@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 
-import fanyikc from '../my_modules/fanyikc/bundle.js'
+import fanyikc from './my_modules/fanyikc/bundle.js'
 
 setTimeout(() => {
   fanyikc({
